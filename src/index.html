@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AarogyaBytes</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>AarogyaBytes 🩺</h1>
+    <p class="tagline">Your first step to understanding your health</p>
+
+    <input type="text" id="symptomInput" placeholder="Describe your symptoms..." />
+    <button onclick="checkSymptoms()">Check</button>
+
+    <div id="resultBox"></div>
+  </div>
+
+  <script src="app.js"></script>
+  <!-- Load logic first, then main app script -->
+<script src="logic/symptom-checker.js"></script>
+<script src="app.js"></script>
+
+</body>
+</html>
