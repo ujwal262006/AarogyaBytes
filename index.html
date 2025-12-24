@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AarogyaBytes AI - Your Smart Health Assistant</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <h1>🏥 AarogyaBytes AI</h1>
+                    <span class="tagline">Your Smart Health Assistant / आपका स्मार्ट स्वास्थ्य सहायक</span>
+                </div>
+                <div class="header-controls">
+                    <button class="btn btn--secondary" id="languageToggle">हिन्दी</button>
+                    <button class="btn btn--outline" id="analyticsBtn">📊 Analytics</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Application -->
+    <main class="main">
+        <div class="container">
+            <!-- Welcome Screen -->
+            <div id="welcomeScreen" class="welcome-screen">
+                <div class="welcome-content">
+                    <div class="welcome-hero">
+                        <h2 id="welcomeTitle">Welcome to AarogyaBytes AI</h2>
+                        <p id="welcomeSubtitle">Get instant medical guidance with our AI-powered health assistant. Available in English and Hindi.</p>
+                    </div>
+                    <div class="interface-selection">
+                        <h3 id="selectInterface">Choose Your Preferred Interface</h3>
+                        <div class="interface-options">
+                            <button class="interface-card" id="webChatBtn">
+                                <div class="interface-icon">💬</div>
+                                <h4 id="webChatTitle">Web Chat</h4>
+                                <p id="webChatDesc">Modern chat interface with rich features</p>
+                            </button>
+                            <button class="interface-card" id="whatsappBtn">
+                                <div class="interface-icon">📱</div>
+                                <h4 id="whatsappTitle">WhatsApp Style</h4>
+                                <p id="whatsappDesc">Familiar WhatsApp-like experience</p>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="features-preview">
+                        <div class="feature-item">
+                            <span class="feature-icon">🤖</span>
+                            <span id="feature1">AI-Powered Diagnosis</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">📋</span>
+                            <span id="feature2">Detailed Health Reports</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">🚨</span>
+                            <span id="feature3">Emergency Detection</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">🌐</span>
+                            <span id="feature4">Bilingual Support</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chat Interface -->
+            <div id="chatInterface" class="chat-interface hidden">
+                <div class="chat-header">
+                    <button class="btn btn--outline" id="backBtn">← Back</button>
+                    <div class="chat-title">
+                        <h3 id="chatAssistant">Health Assistant</h3>
+                        <span class="status-indicator" id="statusIndicator">
+                            🟢 <span id="onlineStatus">Online</span>
+                        </span>
+                    </div>
+                    <div class="chat-controls">
+                        <button class="btn btn--secondary btn--sm" id="newChatBtn">New Chat</button>
+                        <button class="btn btn--primary btn--sm" id="generateReportBtn">📄 Report</button>
+                    </div>
+                </div>
+
+                <div class="chat-container" id="chatContainer">
+                    <div class="chat-messages" id="chatMessages">
+                        <!-- Messages will be dynamically added here -->
+                    </div>
+                    <div class="typing-indicator hidden" id="typingIndicator">
+                        <div class="typing-dots">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                        <span id="typingText">AI is typing...</span>
+                    </div>
+                </div>
+
+                <div class="chat-input-container">
+                    <div class="quick-replies" id="quickReplies">
+                        <!-- Quick reply buttons will be added dynamically -->
+                    </div>
+                    <div class="chat-input">
+                        <input type="text" id="messageInput" placeholder="Type your symptoms or message..." class="form-control">
+                        <button class="btn btn--primary" id="sendBtn">Send</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- WhatsApp Interface -->
+            <div id="whatsappInterface" class="whatsapp-interface hidden">
+                <div class="whatsapp-header">
+                    <button class="btn btn--outline" id="whatsappBackBtn">← Back</button>
+                    <div class="whatsapp-contact">
+                        <div class="contact-avatar">🏥</div>
+                        <div class="contact-info">
+                            <h4>AarogyaBytes AI</h4>
+                            <span class="last-seen" id="lastSeen">Online</span>
+                        </div>
+                    </div>
+                    <div class="whatsapp-controls">
+                        <button class="btn btn--primary btn--sm" id="whatsappReportBtn">📄 Report</button>
+                    </div>
+                </div>
+
+                <div class="whatsapp-messages" id="whatsappMessages">
+                    <!-- WhatsApp style messages -->
+                </div>
+
+                <div class="whatsapp-input">
+                    <input type="text" id="whatsappMessageInput" placeholder="Type a message..." class="form-control">
+                    <button class="btn btn--primary" id="whatsappSendBtn">➤</button>
+                </div>
+            </div>
+
+            <!-- Analytics Dashboard -->
+            <div id="analyticsPanel" class="analytics-panel hidden">
+                <div class="analytics-header">
+                    <h3 id="analyticsTitle">Health Analytics Dashboard</h3>
+                    <button class="btn btn--outline" id="closeAnalyticsBtn">✕ Close</button>
+                </div>
+                <div class="analytics-content">
+                    <div class="analytics-grid">
+                        <div class="analytics-card">
+                            <h4 id="totalConsultations">Total Consultations</h4>
+                            <div class="metric-value" id="consultationsCount">0</div>
+                        </div>
+                        <div class="analytics-card">
+                            <h4 id="emergencyAlerts">Emergency Alerts</h4>
+                            <div class="metric-value emergency" id="emergencyCount">0</div>
+                        </div>
+                        <div class="analytics-card">
+                            <h4 id="avgSessionTime">Avg Session Time</h4>
+                            <div class="metric-value" id="sessionTime">0 min</div>
+                        </div>
+                        <div class="analytics-card">
+                            <h4 id="userSatisfaction">User Satisfaction</h4>
+                            <div class="metric-value success" id="satisfactionRate">95%</div>
+                        </div>
+                    </div>
+                    <div class="analytics-charts">
+                        <div class="chart-section">
+                            <h4 id="commonSymptoms">Most Common Symptoms</h4>
+                            <div class="symptom-list" id="symptomsList">
+                                <!-- Dynamically populated -->
+                            </div>
+                        </div>
+                        <div class="chart-section">
+                            <h4 id="urgencyDistribution">Urgency Level Distribution</h4>
+                            <div class="urgency-chart" id="urgencyChart">
+                                <!-- Dynamically populated -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Emergency Modal -->
+    <div id="emergencyModal" class="modal hidden">
+        <div class="modal-content emergency-modal">
+            <div class="modal-header emergency-header">
+                <h3 id="emergencyTitle">🚨 EMERGENCY DETECTED</h3>
+            </div>
+            <div class="modal-body">
+                <p id="emergencyMessage">Based on your symptoms, you may need immediate medical attention.</p>
+                <div class="emergency-actions">
+                    <div class="emergency-contacts">
+                        <h4 id="emergencyContactsTitle">Emergency Contacts:</h4>
+                        <div class="contact-list">
+                            <div class="contact-item">
+                                <span class="contact-service">Ambulance:</span>
+                                <span class="contact-number">108</span>
+                            </div>
+                            <div class="contact-item">
+                                <span class="contact-service">Medical Helpline:</span>
+                                <span class="contact-number">104</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn--primary" id="callAmbulanceBtn">📞 Call Ambulance</button>
+                <button class="btn btn--secondary" id="continueConsultationBtn">Continue Consultation</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Report Modal -->
+    <div id="reportModal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="reportTitle">Generate Health Report</h3>
+                <button class="modal-close" id="closeReportModal">✕</button>
+            </div>
+            <div class="modal-body">
+                <div class="report-options">
+                    <div class="form-group">
+                        <label class="form-label" id="patientNameLabel">Patient Name:</label>
+                        <input type="text" id="patientName" class="form-control" placeholder="Enter patient name">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" id="reportLanguageLabel">Report Language:</label>
+                        <select id="reportLanguage" class="form-control">
+                            <option value="both">Both English & Hindi</option>
+                            <option value="english">English Only</option>
+                            <option value="hindi">Hindi Only</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn--primary" id="downloadReportBtn">📄 Download PDF</button>
+                <button class="btn btn--secondary" id="cancelReportBtn">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="disclaimer">
+                    <p id="disclaimerText">
+                        <strong>Medical Disclaimer:</strong> This AI assistant provides general health information only and is not a substitute for professional medical advice. Always consult with qualified healthcare providers for medical concerns.
+                    </p>
+                </div>
+                <div class="footer-links">
+                    <span id="poweredBy">Powered by AarogyaBytes AI Technology</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>
