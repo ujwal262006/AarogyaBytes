@@ -1,0 +1,40 @@
+-- CLINICS
+CREATE TABLE clinics (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(255) NOT NULL,
+  email VARCHAR(255) UNIQUE NOT NULL,
+  monthly_reports_limit INT DEFAULT 10,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- DOCTORS
+CREATE TABLE doctors (
+  id SERIAL PRIMARY KEY,
+  clinic_id INT NOT NULL REFERENCES clinics(id) ON DELETE CASCADE,
+  email VARCHAR(255) NOT NULL,
+  password_hash VARCHAR(255) NOT NULL,
+  role VARCHAR(50) DEFAULT 'doctor',
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  UNIQUE(clinic_id, email)
+);
+
+-- PATIENTS
+CREATE TABLE patients (
+  id SERIAL PRIMARY KEY,
+  clinic_id INT NOT NULL REFERENCES clinics(id) ON DELETE CASCADE,
+  name VARCHAR(255) NOT NULL,
+  age INT,
+  phone VARCHAR(20),
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- REPORTS
+CREATE TABLE reports (
+  id SERIAL PRIMARY KEY,
+  clinic_id INT NOT NULL REFERENCES clinics(id) ON DELETE CASCADE,
+  patient_id INT NOT NULL REFERENCES patients(id) ON DELETE CASCADE,
+  symptoms TEXT,
+  urgency_level VARCHAR(50),
+  pdf_url VARCHAR(500),
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
