@@ -68,4 +68,31 @@ router.post('/', authMiddleware, async (req, res) => {
   }
 });
 
+// GET /api/reports
+router.get('/', authMiddleware, async (req, res) => {
+  try {
+    const result = await pool.query(
+      `SELECT 
+         r.id,
+         p.name AS patient_name,
+         p.age AS patient_age,
+         r.symptoms,
+         r.urgency_level,
+         r.created_at,
+         r.pdf_url
+       FROM reports r
+       JOIN patients p ON r.patient_id = p.id
+       WHERE r.clinic_id = $1
+       ORDER BY r.created_at DESC`,
+      [req.clinicId]
+    );
+
+    res.json(result.rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Failed to fetch reports' });
+  }
+});
+
+
 module.exports = router;
