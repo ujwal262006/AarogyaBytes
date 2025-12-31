@@ -1,4 +1,63 @@
 // AarogyaBytes AI - Comprehensive Health Chatbot Platform
+// ===== BACKEND API BASE =====
+const API_BASE = "http://localhost:3000/api";
+
+// ===== DAY-7 TEMP LOGIN TEST =====
+async function testLogin() {
+  try {
+    const res = await fetch(`${API_BASE}/auth/login`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        email: "apollo@clinic.com",
+        password: "test1234"
+      })
+    });
+
+    const data = await res.json();
+    console.log("✅ LOGIN RESPONSE:", data);
+
+    if (data.token) {
+      localStorage.setItem("token", data.token);
+      console.log("✅ TOKEN SAVED TO localStorage");
+      
+
+    } else {
+      console.error("❌ No token received");
+    }
+  } catch (err) {
+    console.error("❌ LOGIN ERROR:", err);
+  }
+}
+
+// ===== DAY-7 STEP-2: FETCH PATIENTS =====
+async function fetchPatients() {
+  const token = localStorage.getItem("token");
+
+  if (!token) {
+    console.error("❌ No token found in localStorage");
+    return;
+  }
+
+  try {
+    const res = await fetch(`${API_BASE}/patients`, {
+      method: "GET",
+      headers: {
+        "Authorization": `Bearer ${token}`
+      }
+    });
+
+    const data = await res.json();
+    console.log("✅ PATIENTS RESPONSE:", data);
+  } catch (err) {
+    console.error("❌ FETCH PATIENTS ERROR:", err);
+  }
+}
+
+
+
 class AarogaByteAI {
     constructor() {
         this.currentLanguage = 'EN';
@@ -1148,3 +1207,4 @@ class AarogaByteAI {
 document.addEventListener('DOMContentLoaded', () => {
     window.aarogyaBytes = new AarogaByteAI();
 });
+
