@@ -3,13 +3,16 @@ const pool = require('../db');
 const authMiddleware = require('../middleware/auth');
 const { assessHealth } = require('../services/ai');
 const { generatePDF } = require('../services/pdf');
+const checkReportLimit = require('../middleware/checkReportLimit');
+
 
 const router = express.Router();
 
 /**
  * POST /api/reports
  */
-router.post('/', authMiddleware, async (req, res) => {
+router.post('/', authMiddleware, checkReportLimit, async (req, res) => {
+
   const { patientId, symptoms } = req.body;
 
   if (!patientId || !symptoms) {
@@ -57,11 +60,13 @@ router.post('/', authMiddleware, async (req, res) => {
     );
 
     res.status(201).json({
-      reportId,
-      patientName: patient.name,
-      urgencyLevel: assessment.urgencyLevel,
-      pdfUrl
-    });
+  reportId,
+  patientName: patient.name,
+  urgencyLevel: assessment.urgencyLevel,
+  pdfUrl,
+  usage: req.reportUsage
+});
+
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Failed to generate report' });
